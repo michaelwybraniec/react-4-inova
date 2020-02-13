@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import Container from "@material-ui/core/Container";
 import Header from "./components/header/header.js";
 import Footer from "./components/footer/footer.js";
 import Countries from "./Countries.js";
