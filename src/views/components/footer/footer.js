@@ -15,3 +15,4 @@ class BFooter extends React.Component {
   }
 }
 export default BFooter;
+
