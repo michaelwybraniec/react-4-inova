@@ -1,13 +1,18 @@
 import React from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-class Footer extends React.Component {
+class BFooter extends React.Component {
   render() {
     return (
-      <div>
-        All Rights Reserved by Xtreme admin. Designed and Developed by{" "}
-        <a href="#/">Michael</a>.
-      </div>
+      <Row className="float-down text-bottom align-bottom pull-down">
+        <Col>
+          All Rights Reserved. Designed and Developed by{" "}
+          <a href="#/about">Michael Wybraniec</a>.
+        </Col>
+      </Row>
     );
   }
 }
-export default Footer;
+export default BFooter;
+
