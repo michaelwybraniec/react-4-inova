@@ -11,9 +11,8 @@ class Countries extends React.Component {
     };
   }
 
-  formatData = data => {
-    const clonnedData = [...data];
-    return clonnedData.map(c => ({
+  formatJSON = data => {
+    return data.map(c => ({
       flag: c.flag,
       nativeName: c.nativeName ? c.nativeName : "",
       capital: c.capital ? c.nativeName : "",
@@ -32,29 +31,40 @@ class Countries extends React.Component {
     }));
   };
 
-  componentDidMount() {
+  APIgetAll() {
     fetch("https://restcountries.eu/rest/v2/all")
       .then(results => {
         return results.json();
       })
       .then(data => {
-        this.setState({ countries: this.formatData(data) });
-        console.log(this.state.countries);
+        data = [...this.formatJSON(data)];
+        this.setState({ countries: data });
+        console.log(
+          "componentDidMount() => APIgetAll() => formatJSON => setState() => this.state.countries.slice(0,10): \n",
+          this.state.countries.slice(0, 10)
+        );
       });
+  }
+
+  componentDidMount() {
+    this.APIgetAll();
   }
 
   getSearchInputData = SingleSearchBarData => {
     this.setState({ searchInput: SingleSearchBarData });
-    console.log("parent: Countries ", this.state.searchInput);
+
+    console.log("parent: Countr(ies ", this.state.searchInput);
   };
 
   render() {
     return (
-      <Row>
-        <Col className="pt-2">
-          <SingleSearchBar countriesCallback={this.getSearchInputData} />
-        </Col>
-      </Row>
+      <>
+        <Row>
+          <Col className="pt-2">
+            <SingleSearchBar countriesCallback={this.getSearchInputData} />
+          </Col>
+        </Row>
+      </>
     );
   }
 }
