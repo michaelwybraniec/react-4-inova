@@ -1,5 +1,6 @@
 import React from "react";
 import SingleSearchBar from "./components/forms/SingleSearchBar.js";
+import CountriesList from "./components/countriesList/CountriesList.js";
 import { Row, Col } from "react-bootstrap";
 
 class Countries extends React.Component {
@@ -69,6 +70,7 @@ class Countries extends React.Component {
         <Row>
           <Col className="pt-2">
             <SingleSearchBar countriesCallback={this.getSearchInputData} />
+            <CountriesList />
           </Col>
         </Row>
       </>
