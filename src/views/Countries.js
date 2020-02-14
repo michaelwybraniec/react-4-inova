@@ -39,8 +39,15 @@ class Countries extends React.Component {
       .then(data => {
         data = [...this.formatJSON(data)];
         this.setState({ countries: data });
-        console.log(
-          "componentDidMount() => APIgetAll() => formatJSON => setState() => this.state.countries.slice(0,10): \n",
+        console.table(
+          `
+          componentDidMount() => 
+          APIgetAll() => 
+          formatJSON => 
+          setState() => 
+          this.state.countries.slice(0,10):
+          `,
+          // JSON.stringify(this.state.countries.slice(0, 10), null, 4)
           this.state.countries.slice(0, 10)
         );
       });
