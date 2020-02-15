@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FormControl, Row, Col, Spinner, Button } from "react-bootstrap";
+import { Form, FormControl, Spinner, Button } from "react-bootstrap";
 
 class SingleSearchBar extends React.Component {
   constructor() {
@@ -25,7 +25,7 @@ class SingleSearchBar extends React.Component {
             type="text"
             value={this.state.searchInput}
             name="searchInput"
-            placeholder="country name..."
+            placeholder=""
             onChange={this.handleChange.bind(this)}
             className="mr-sm-2"
           />

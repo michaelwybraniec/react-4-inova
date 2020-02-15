@@ -14,11 +14,16 @@ class CountriesList extends React.Component {
     return (
       <React.Fragment>
         <Row className="mt-2">
-          <Col md="6">
+          <Col>
             {countries &&
-              countries.map(c => <ListItem country={c} mobile={false} />)}
+              countries.map(c => (
+                <ListItem
+                  key={c.alpha3Code}
+                  country={c}
+                  isMobileSized={this.props.isMobileSized}
+                />
+              ))}
           </Col>
-          <Col md="6">{!this.props.isMobileSized && "Web browser"}</Col>
         </Row>
       </React.Fragment>
     );

@@ -125,6 +125,7 @@ class Countries extends React.Component {
               </Alert>
             )}
             <CountriesList
+              key={data.alpha3Code}
               countries={data}
               isMobileSized={this.props.isMobileSized}
             />

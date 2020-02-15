@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Col } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 class Header extends React.Component {
   render() {
@@ -7,9 +7,13 @@ class Header extends React.Component {
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="#home">react-4-inova</Navbar.Brand>
         {this.props.isMobileSized ? (
-          <Col>Detected: Mobile</Col>
+          <Navbar.Text>
+            Detected:<b> Mobile</b>
+          </Navbar.Text>
         ) : (
-          <Col>Detected: Web browser</Col>
+          <Navbar.Text>
+            Detected:<b> Web browser</b>
+          </Navbar.Text>
         )}
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
