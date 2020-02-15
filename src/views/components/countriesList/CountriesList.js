@@ -5,13 +5,7 @@ import { Row, Col } from "react-bootstrap";
 class CountriesList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      countries: [],
-      mobile: false,
-      isLoading: true
-    };
+    this.state = {};
   }
 
   render() {

@@ -1,7 +1,7 @@
 import React from "react";
 import SingleSearchBar from "./components/forms/SingleSearchBar.js";
 import CountriesList from "./components/countriesList/CountriesList.js";
-import { Row, Col, Spinner } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 
 class Countries extends React.Component {
   constructor() {
@@ -11,15 +11,18 @@ class Countries extends React.Component {
       APIRawReponse: [],
       singleSearch: false,
       countries: [],
-      country: {},
-      isLoading: true
+      country: [],
+      isLoading: true,
+      error: null
     };
   }
+
   formatJSON = (data, all = true) => {
     return (
       data &&
       data.map(c => ({
         flag: c.flag,
+        alpha3Code: c.alpha3Code ? c.alpha3Code : "",
         nativeName: c.nativeName ? c.nativeName : "",
         capital: c.capital ? c.nativeName : "",
         population: c.population ? c.population : 0,
@@ -57,20 +60,37 @@ class Countries extends React.Component {
       .then(results => {
         return results.json();
       })
-      .then(data => {
+      .then(response => {
         if (all) {
-          data = [...this.formatJSON(data)];
-          this.setState({ APIRawReponse: data });
-          this.setState({ countries: data });
+          this.setState({ APIRawReponse: response });
+          response = [...this.formatJSON(response)];
+          this.setState({ countries: response });
           this.setState({ singleSearch: false });
           this.setState({ isLoading: false });
-          // console.table(this.state.countries.slice(0, 10));
+          this.setState({ error: null });
+          this.setState({ country: [] });
         } else {
-          data = [...this.formatJSON(data, false)];
-          this.setState({ country: data });
-          this.setState({ singleSearch: true });
-          this.setState({ isLoading: false });
-          // console.table(this.state.country.slice(0, 10));
+          if (!response.status || response.status !== 404) {
+            response = [...this.formatJSON(response, false)];
+            this.setState({ country: response });
+            this.setState({ singleSearch: true });
+            this.setState({ isLoading: false });
+            this.setState({ error: null });
+          } else if (response.status && response.status === 404) {
+            this.setState({
+              error: {
+                status: response.status,
+                message: response.message,
+                messageCustom:
+                  "Ops! Nothing found, but did you try to search on Mars ?"
+              }
+            });
+            this.setState({ country: [] });
+            this.setState({ singleSearch: true });
+            this.setState({ isLoading: false });
+          } else {
+            console.error("APIgetAll error: response:", response);
+          }
         }
       });
   };
@@ -94,9 +114,15 @@ class Countries extends React.Component {
       <>
         <Row>
           <Col className="pt-2">
-            <SingleSearchBar countriesCallback={this.getSearchInputData} />
-            {this.state.isLoading && (
-              <Spinner animation="border" className="mt-4" />
+            <SingleSearchBar
+              countriesCallback={this.getSearchInputData}
+              isLoading={this.state.isLoading}
+            />
+
+            {this.state.error && (
+              <Alert className="mt-2" variant="warning">
+                {this.state.error.messageCustom}
+              </Alert>
             )}
             <CountriesList
               countries={data}

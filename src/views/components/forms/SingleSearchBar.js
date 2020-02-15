@@ -1,7 +1,5 @@
 import React from "react";
-import { Form, FormControl, Row, Col } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import SearchIcon from "@material-ui/icons/Search";
+import { Form, FormControl, Row, Col, Spinner, Button } from "react-bootstrap";
 
 class SingleSearchBar extends React.Component {
   constructor() {
@@ -12,15 +10,10 @@ class SingleSearchBar extends React.Component {
   }
 
   handleChange(e) {
-    console.log(e.target.value);
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-    console.log(this.state);
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleClick = () => {
-    console.log("SingleSearchBar: handleClick", this.state.searchInput);
     this.props.countriesCallback(this.state.searchInput);
   };
 
@@ -36,12 +29,19 @@ class SingleSearchBar extends React.Component {
             onChange={this.handleChange.bind(this)}
             className="mr-sm-2"
           />
+
           <Button
-            variant="contained"
-            color="primary"
-            endIcon={<SearchIcon />}
+            style={{ width: 100 }}
+            variant="primary"
             onClick={this.handleClick}>
-            Find
+            {this.props.isLoading ? (
+              <span className="">
+                {" "}
+                <Spinner animation="border" size="sm" className="" />
+              </span>
+            ) : (
+              "Find"
+            )}
           </Button>
 
           {this.state.searchInput && (
