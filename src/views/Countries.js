@@ -3,6 +3,7 @@ import SingleSearchBar from "./components/forms/SingleSearchBar.js";
 import CountriesList from "./components/countriesList/CountriesList.js";
 import { Row, Col, Alert } from "react-bootstrap";
 
+
 class Countries extends React.Component {
   constructor() {
     super();
@@ -118,7 +119,6 @@ class Countries extends React.Component {
               countriesCallback={this.getSearchInputData}
               isLoading={this.state.isLoading}
             />
-
             {this.state.error && (
               <Alert className="mt-2" variant="warning">
                 {this.state.error.messageCustom}

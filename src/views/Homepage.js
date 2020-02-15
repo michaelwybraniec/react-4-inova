@@ -4,6 +4,7 @@ import Header from "./components/header/header.js";
 import Footer from "./components/footer/footer.js";
 import Countries from "./Countries.js";
 
+
 class Homepage extends React.Component {
   state = { width: 0, height: 0 };
 
