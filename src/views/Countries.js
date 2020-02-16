@@ -5,11 +5,11 @@ import CountryDetails from "./components/countryDetails/CountryDetails.js";
 import { Row, Col, Alert } from "react-bootstrap";
 
 class Countries extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       searchInput: "",
-      APIRawReponse: [],
+      APIRawResponse: [],
       singleSearch: false,
       countries: [],
       country: [],
@@ -30,7 +30,9 @@ class Countries extends React.Component {
         population: c.population ? c.population : 0,
         languages: c.languages ? c.languages.map(l => l.name) : [],
         timezones: c.timezones ? c.timezones : [],
-        currenciesNames: c.currencies ? c.currencies.map(c => c.name) : [],
+        currenciesNames: c.currencies.length
+          ? c.currencies.map(c => c.name)
+          : [],
         nameOfBorderCountries: all
           ? c.borders
             ? c.borders.map(code => {
@@ -43,7 +45,7 @@ class Countries extends React.Component {
             : []
           : !all
           ? c.borders.map(code => {
-              const country = this.state.APIRawReponse.find(
+              const country = this.state.APIRawResponse.find(
                 country => country.cioc === code || country.alpha3Code === code
               );
               return country ? country.name : code;
@@ -53,7 +55,7 @@ class Countries extends React.Component {
     );
   };
 
-  APIgetAll = (all = true) => {
+  APIGetAll = (all = true) => {
     this.setState({ isLoading: true });
     let url = this.state.searchInput
       ? `https://restcountries.eu/rest/v2/name/${this.state.searchInput}`
@@ -64,7 +66,7 @@ class Countries extends React.Component {
       })
       .then(response => {
         if (all) {
-          this.setState({ APIRawReponse: response });
+          this.setState({ APIRawResponse: response });
           response = [...this.formatJSON(response)];
           this.setState({ countries: response });
           this.setState({ singleSearch: false });
@@ -103,19 +105,19 @@ class Countries extends React.Component {
             this.setState({ isLoading: false });
             this.setState({ selectedCountry: [] });
           } else {
-            console.error("APIgetAll error: response:", response);
+            console.error("APIGetAll error: response:", response);
           }
         }
       });
   };
 
   componentDidMount() {
-    this.APIgetAll();
+    this.APIGetAll();
   }
 
   getSearchInputData = SingleSearchBarData => {
     this.setState({ searchInput: SingleSearchBarData }, () => {
-      this.APIgetAll(false);
+      this.APIGetAll(false);
     });
   };
 
