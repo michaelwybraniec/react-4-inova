@@ -20,7 +20,6 @@ class Countries extends React.Component {
   }
 
   formatJSON = (data, all = true) => {
-    console.log(data);
     return (
       data &&
       data.map(c => ({
