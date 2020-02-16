@@ -1,76 +1,161 @@
 import React from "react";
 import SingleSearchBar from "./components/forms/SingleSearchBar.js";
 import CountriesList from "./components/countriesList/CountriesList.js";
-import { Row, Col } from "react-bootstrap";
+import CountryDetails from "./components/countryDetails/CountryDetails.js";
+
+import { Row, Col, Alert } from "react-bootstrap";
 
 class Countries extends React.Component {
   constructor() {
     super();
     this.state = {
       searchInput: "",
-      countries: []
+      APIRawReponse: [],
+      singleSearch: false,
+      countries: [],
+      country: [],
+      isLoading: true,
+      error: null,
+      selectedCountry: []
     };
   }
 
-  formatJSON = data => {
-    return data.map(c => ({
-      flag: c.flag,
-      nativeName: c.nativeName ? c.nativeName : "",
-      capital: c.capital ? c.nativeName : "",
-      population: c.population ? c.population : 0,
-      languages: c.languages ? c.languages.map(l => l.name) : [],
-      timezones: c.timezones ? c.timezones : [],
-      currenciesNames: c.currencies ? c.currencies.map(c => c.name) : [],
-      nameOfBorderCountries: c.borders
-        ? c.borders.map(code => {
-            const country = data.find(
-              country => country.cioc === code || country.alpha3Code === code
-            );
-            return country.name ? country.name : code;
-          })
-        : []
-    }));
+  formatJSON = (data, all = true) => {
+    return (
+      data &&
+      data.map(c => ({
+        flag: c.flag,
+        alpha3Code: c.alpha3Code ? c.alpha3Code : "",
+        nativeName: c.nativeName ? c.nativeName : "",
+        capital: c.capital ? c.nativeName : "",
+        population: c.population ? c.population : 0,
+        languages: c.languages ? c.languages.map(l => l.name) : [],
+        timezones: c.timezones ? c.timezones : [],
+        currenciesNames: c.currencies ? c.currencies.map(c => c.name) : [],
+        nameOfBorderCountries: all
+          ? c.borders
+            ? c.borders.map(code => {
+                const country = data.find(
+                  country =>
+                    country.cioc === code || country.alpha3Code === code
+                );
+                return country.name ? country.name : code;
+              })
+            : []
+          : !all
+          ? c.borders.map(code => {
+              const country = this.state.APIRawReponse.find(
+                country => country.cioc === code || country.alpha3Code === code
+              );
+              return country ? country.name : code;
+            })
+          : {}
+      }))
+    );
   };
 
-  APIgetAll() {
-    fetch("https://restcountries.eu/rest/v2/all")
+  APIgetAll = (all = true) => {
+    this.setState({ isLoading: true });
+    let url = this.state.searchInput
+      ? `https://restcountries.eu/rest/v2/name/${this.state.searchInput}`
+      : "https://restcountries.eu/rest/v2/all";
+    fetch(url)
       .then(results => {
         return results.json();
       })
-      .then(data => {
-        data = [...this.formatJSON(data)];
-        this.setState({ countries: data });
-        console.table(
-          `
-          componentDidMount() => 
-          APIgetAll() => 
-          formatJSON => 
-          setState() => 
-          this.state.countries.slice(0,10):
-          `,
-          // JSON.stringify(this.state.countries.slice(0, 10), null, 4)
-          this.state.countries.slice(0, 10)
-        );
+      .then(response => {
+        if (all) {
+          this.setState({ APIRawReponse: response });
+          response = [...this.formatJSON(response)];
+          this.setState({ countries: response });
+          this.setState({ singleSearch: false });
+          this.setState({ isLoading: false });
+          this.setState({ error: null });
+          this.setState({ country: [] });
+          this.setState({
+            selectedCountry:
+              response.find(c => c.nativeName === "Polska") || null
+          });
+        } else {
+          if (!response.status || response.status !== 404) {
+            response = [...this.formatJSON(response, false)];
+            this.setState({ country: response });
+            this.setState({ singleSearch: true });
+            this.setState({ isLoading: false });
+            this.setState({ error: null });
+            this.setState({
+              selectedCountry: !this.props.isMobileSized
+                ? response.length === 1
+                  ? response[0]
+                  : []
+                : []
+            });
+          } else if (response.status && response.status === 404) {
+            this.setState({
+              error: {
+                status: response.status,
+                message: response.message,
+                messageCustom:
+                  "Ops! Nothing found, but did you try to search on Mars ?"
+              }
+            });
+            this.setState({ country: [] });
+            this.setState({ singleSearch: true });
+            this.setState({ isLoading: false });
+            this.setState({ selectedCountry: [] });
+          } else {
+            console.error("APIgetAll error: response:", response);
+          }
+        }
       });
-  }
+  };
 
   componentDidMount() {
     this.APIgetAll();
   }
 
   getSearchInputData = SingleSearchBarData => {
-    this.setState({ searchInput: SingleSearchBarData });
+    this.setState({ searchInput: SingleSearchBarData }, () => {
+      this.APIgetAll(false);
+    });
+  };
 
-    console.log("parent: Countr(ies ", this.state.searchInput);
+  selectedCountryCallback = country => {
+    console.log("parent", country);
+    this.setState({ selectedCountry: country });
   };
 
   render() {
+    const data = !this.state.singleSearch
+      ? this.state.countries
+      : this.state.country;
+
     return (
       <>
         <Row>
-          <Col className="pt-2">
-            <SingleSearchBar countriesCallback={this.getSearchInputData} />
-            <CountriesList />
+          <Col className="pt-4">
+            <SingleSearchBar
+              countriesCallback={this.getSearchInputData}
+              isLoading={this.state.isLoading}
+            />
+            {this.state.error && (
+              <Alert className="mt-2" variant="warning">
+                {this.state.error.messageCustom}
+              </Alert>
+            )}
+            <Row className="mt-2">
+              <Col md="6">
+                <CountriesList
+                  key={data.alpha3Code}
+                  countries={data}
+                  isMobileSized={this.props.isMobileSized}
+                  selectedCountryCallback={this.selectedCountryCallback}
+                />
+              </Col>
+              <Col md="6">
+                <CountryDetails country={this.state.selectedCountry} />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </>

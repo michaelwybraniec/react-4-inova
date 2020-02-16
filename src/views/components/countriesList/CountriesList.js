@@ -1,22 +1,20 @@
 import React from "react";
-import { Form, FormControl, Row, Col } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import SearchIcon from "@material-ui/icons/Search";
+import ListItem from "./ListItem.js";
 
 class CountriesList extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  handleChange(e) {}
-
-  handleClick = () => {};
-
   render() {
+    const countries = this.props.countries;
     return (
       <React.Fragment>
-        <p>countriesList</p>
+        {countries &&
+          countries.map(c => (
+            <ListItem
+              key={c.alpha3Code}
+              country={c}
+              isMobileSized={this.props.isMobileSized}
+              selectedCountryCallback={this.props.selectedCountryCallback}
+            />
+          ))}
       </React.Fragment>
     );
   }
