@@ -122,7 +122,6 @@ class Countries extends React.Component {
   };
 
   selectedCountryCallback = country => {
-    console.log("parent", country);
     this.setState({ selectedCountry: country });
   };
 
