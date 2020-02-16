@@ -4,10 +4,10 @@ import { Row, Col } from "react-bootstrap";
 class BFooter extends React.Component {
   render() {
     return (
-      <Row className="float-down text-bottom align-bottom pull-down">
+      <Row className="pt-4 pb-2">
         <Col>
-          All Rights Reserved. Developed by{" "}
-          <a href="#/about">Michael Wybraniec</a>.
+          {/*  All Rights Reserved. Developed by{" "}
+          <a href="#/about">Michael Wybraniec</a>. */}
         </Col>
       </Row>
     );
