@@ -1,10 +1,12 @@
+
+
 import React from "react";
 import { Navbar } from "react-bootstrap";
 
 class Header extends React.Component {
   render() {
     return (
-      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="#home">react-4-inova</Navbar.Brand>
         {this.props.isMobileSized ? (
           <Navbar.Text>
@@ -15,7 +17,6 @@ class Header extends React.Component {
             Detected:<b> Web browser</b>
           </Navbar.Text>
         )}
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       </Navbar>
     );
   }

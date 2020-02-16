@@ -122,14 +122,13 @@ class Countries extends React.Component {
   };
 
   selectedCountryCallback = country => {
-    console.log("parent", country);
     this.setState({ selectedCountry: country });
   };
 
   render() {
     const data = !this.state.singleSearch
-      ? this.state.countries
-      : this.state.country;
+      ? [...this.state.countries]
+      : [...this.state.country];
 
     return (
       <>
