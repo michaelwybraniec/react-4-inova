@@ -6,7 +6,9 @@ import "./styles.css";
 export default function App() {
   return (
     <div className="App">
-      <Homepage />
+      <React.StrictMode>
+        <Homepage />
+      </React.StrictMode>
     </div>
   );
 }
