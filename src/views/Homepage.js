@@ -4,7 +4,6 @@ import Header from "./components/header/header.js";
 import Footer from "./components/footer/footer.js";
 import Countries from "./Countries.js";
 
-
 class Homepage extends React.Component {
   state = { width: 0, height: 0 };
 
@@ -25,7 +24,11 @@ class Homepage extends React.Component {
     const mdWidth = 768;
     return (
       <React.Fragment>
-        <Container>
+        <Container
+          fixed
+          style={{
+            backgroundColor: "#F5F5F5"
+          }}>
           <Header isMobileSized={this.state.width < mdWidth} />
           <Countries isMobileSized={this.state.width < mdWidth} />
           <Footer />

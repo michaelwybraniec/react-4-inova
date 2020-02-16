@@ -16,13 +16,13 @@ class Header extends React.Component {
           </Navbar.Text>
         )}
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+     {/*    <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" />
           <Nav>
             <Nav.Link href="#countries">Countries</Nav.Link>
             <Nav.Link href="#about">About</Nav.Link>
           </Nav>
-        </Navbar.Collapse>
+        </Navbar.Collapse> */}
       </Navbar>
     );
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import SingleSearchBar from "./components/forms/SingleSearchBar.js";
 import CountriesList from "./components/countriesList/CountriesList.js";
+import CountryDetails from "./components/countryDetails/CountryDetails.js";
 import { Row, Col, Alert } from "react-bootstrap";
-
 
 class Countries extends React.Component {
   constructor() {
@@ -14,7 +14,8 @@ class Countries extends React.Component {
       countries: [],
       country: [],
       isLoading: true,
-      error: null
+      error: null,
+      selectedCountry: []
     };
   }
 
@@ -70,6 +71,10 @@ class Countries extends React.Component {
           this.setState({ isLoading: false });
           this.setState({ error: null });
           this.setState({ country: [] });
+          this.setState({
+            selectedCountry:
+              response.find(c => c.nativeName === "Polska") || null
+          });
         } else {
           if (!response.status || response.status !== 404) {
             response = [...this.formatJSON(response, false)];
@@ -77,6 +82,13 @@ class Countries extends React.Component {
             this.setState({ singleSearch: true });
             this.setState({ isLoading: false });
             this.setState({ error: null });
+            this.setState({
+              selectedCountry: !this.props.isMobileSized
+                ? response.length === 1
+                  ? response[0]
+                  : []
+                : []
+            });
           } else if (response.status && response.status === 404) {
             this.setState({
               error: {
@@ -89,6 +101,7 @@ class Countries extends React.Component {
             this.setState({ country: [] });
             this.setState({ singleSearch: true });
             this.setState({ isLoading: false });
+            this.setState({ selectedCountry: [] });
           } else {
             console.error("APIgetAll error: response:", response);
           }
@@ -106,6 +119,11 @@ class Countries extends React.Component {
     });
   };
 
+  selectedCountryCallback = country => {
+    console.log("parent", country);
+    this.setState({ selectedCountry: country });
+  };
+
   render() {
     const data = !this.state.singleSearch
       ? this.state.countries
@@ -114,7 +132,7 @@ class Countries extends React.Component {
     return (
       <>
         <Row>
-          <Col className="pt-2">
+          <Col className="pt-4">
             <SingleSearchBar
               countriesCallback={this.getSearchInputData}
               isLoading={this.state.isLoading}
@@ -124,11 +142,19 @@ class Countries extends React.Component {
                 {this.state.error.messageCustom}
               </Alert>
             )}
-            <CountriesList
-              key={data.alpha3Code}
-              countries={data}
-              isMobileSized={this.props.isMobileSized}
-            />
+            <Row className="mt-2">
+              <Col md="6">
+                <CountriesList
+                  key={data.alpha3Code}
+                  countries={data}
+                  isMobileSized={this.props.isMobileSized}
+                  selectedCountryCallback={this.selectedCountryCallback}
+                />
+              </Col>
+              <Col md="6">
+                <CountryDetails country={this.state.selectedCountry} />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </>

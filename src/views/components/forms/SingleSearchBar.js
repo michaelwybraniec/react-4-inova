@@ -43,12 +43,6 @@ class SingleSearchBar extends React.Component {
               "Find"
             )}
           </Button>
-
-          {this.state.searchInput && (
-            <span className="pl-2">
-              You are typing: <b>{this.state.searchInput}</b>
-            </span>
-          )}
         </Form>
       </React.Fragment>
     );
