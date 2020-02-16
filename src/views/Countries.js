@@ -127,8 +127,8 @@ class Countries extends React.Component {
 
   render() {
     const data = !this.state.singleSearch
-      ? this.state.countries
-      : this.state.country;
+      ? [...this.state.countries]
+      : [...this.state.country];
 
     return (
       <>

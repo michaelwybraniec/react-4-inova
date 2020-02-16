@@ -3,7 +3,7 @@ import ListItem from "./ListItem.js";
 
 class CountriesList extends React.Component {
   render() {
-    const countries = this.props.countries;
+    const countries = [...this.props.countries];
     return (
       <React.Fragment>
         {countries &&
