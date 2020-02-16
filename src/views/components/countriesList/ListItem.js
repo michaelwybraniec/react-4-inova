@@ -8,7 +8,6 @@ class ListItem extends React.Component {
       this.props.selectedCountryCallback(this.props.country);
     }
   };
-
   render() {
     const { country } = this.props;
     return (

@@ -2,7 +2,6 @@ import React from "react";
 import SingleSearchBar from "./components/forms/SingleSearchBar.js";
 import CountriesList from "./components/countriesList/CountriesList.js";
 import CountryDetails from "./components/countryDetails/CountryDetails.js";
-
 import { Row, Col, Alert } from "react-bootstrap";
 
 class Countries extends React.Component {
