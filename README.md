@@ -2,6 +2,8 @@
 Front-end app using React.js.
 Created with CodeSandbox
 
+Project overflow: https://github.com/michaelwybraniec/react-4-inova/projects/1
+
 Demo: https://codesandbox.io/s/react-4-inova-brl6n
 
 BE API: http://restcountries.eu/
