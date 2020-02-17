@@ -13,7 +13,7 @@ class ListItem extends React.Component {
     return (
       <React.Fragment>
         <Accordion>
-          <Card className="mb-2">
+          <Card className="mb-2" style={{ cursor: "pointer" }}>
             <Accordion.Toggle
               as={Card.Header}
               eventKey="0"

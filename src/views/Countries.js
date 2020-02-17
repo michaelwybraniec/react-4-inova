@@ -130,6 +130,9 @@ class Countries extends React.Component {
       ? [...this.state.countries]
       : [...this.state.country];
 
+    let scrollStyle = this.props.isMobileSized
+      ? {}
+      : { height: 1000, overflowY: "scroll" };
     return (
       <>
         <Row>
@@ -144,7 +147,7 @@ class Countries extends React.Component {
               </Alert>
             )}
             <Row className="mt-2">
-              <Col md="6">
+              <Col md="6" style={scrollStyle}>
                 <CountriesList
                   key={data.alpha3Code}
                   countries={data}
@@ -153,7 +156,9 @@ class Countries extends React.Component {
                 />
               </Col>
               <Col md="6">
-                <CountryDetails country={this.state.selectedCountry} />
+                {!this.props.isMobileSized && (
+                  <CountryDetails country={this.state.selectedCountry} />
+                )}
               </Col>
             </Row>
           </Col>
