@@ -13,7 +13,7 @@ class ListItem extends React.Component {
     return (
       <React.Fragment>
         <Accordion>
-          <Card className="mb-2">
+          <Card className="mb-2" style={{ cursor: "pointer" }}>
             <Accordion.Toggle
               as={Card.Header}
               eventKey="0"
@@ -28,9 +28,7 @@ class ListItem extends React.Component {
             </Accordion.Toggle>
             {this.props.isMobileSized && (
               <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <CountryDetails country={country} />
-                </Card.Body>
+                <CountryDetails country={country} />
               </Accordion.Collapse>
             )}
           </Card>

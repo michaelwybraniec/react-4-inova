@@ -1,5 +1,13 @@
 import React from "react";
-import { Form, FormControl, Spinner, Button } from "react-bootstrap";
+import {
+  Form,
+  FormControl,
+  Spinner,
+  Button,
+  Row,
+  Col,
+  InputGroup
+} from "react-bootstrap";
 
 class SingleSearchBar extends React.Component {
   constructor() {
@@ -19,32 +27,36 @@ class SingleSearchBar extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Form inline>
-          <FormControl
-            type="text"
-            value={this.state.searchInput}
-            name="searchInput"
-            placeholder=""
-            onChange={this.handleChange.bind(this)}
-            className="mr-sm-2"
-          />
-
-          <Button
-            style={{ width: 100 }}
-            variant="primary"
-            onClick={this.handleClick}>
-            {this.props.isLoading ? (
-              <span className="">
-                {" "}
-                <Spinner animation="border" size="sm" className="" />
-              </span>
-            ) : (
-              "Find"
-            )}
-          </Button>
-        </Form>
-      </React.Fragment>
+      <>
+        <Form.Row>
+          <Form.Group as={Col}>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <Button
+                  variant="primary"
+                  style={{ width: 150 }}
+                  onClick={this.handleClick}>
+                  {this.props.isLoading ? (
+                    <span className="">
+                      {" "}
+                      <Spinner animation="border" size="sm" className="" />
+                    </span>
+                  ) : (
+                    "Find"
+                  )}
+                </Button>
+              </InputGroup.Prepend>
+              <FormControl
+                type="text"
+                value={this.state.searchInput}
+                name="searchInput"
+                placeholder=""
+                onChange={this.handleChange.bind(this)}
+              />
+            </InputGroup>
+          </Form.Group>
+        </Form.Row>
+      </>
     );
   }
 }

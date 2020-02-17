@@ -130,35 +130,41 @@ class Countries extends React.Component {
       ? [...this.state.countries]
       : [...this.state.country];
 
+    let scrollStyle = this.props.isMobileSized
+      ? {}
+      : { height: 1000, overflowY: "scroll" };
     return (
-      <>
+      <React.Fragment>
         <Row>
           <Col className="pt-4">
             <SingleSearchBar
               countriesCallback={this.getSearchInputData}
               isLoading={this.state.isLoading}
             />
-            {this.state.error && (
+            {this.state.error ? (
               <Alert className="mt-2" variant="warning">
                 {this.state.error.messageCustom}
               </Alert>
+            ) : (
+              <Row className="mt-2">
+                <Col md="6" style={scrollStyle}>
+                  <CountriesList
+                    key={data.alpha3Code}
+                    countries={data}
+                    isMobileSized={this.props.isMobileSized}
+                    selectedCountryCallback={this.selectedCountryCallback}
+                  />
+                </Col>
+                <Col md="6">
+                  {!this.props.isMobileSized && (
+                    <CountryDetails country={this.state.selectedCountry} />
+                  )}
+                </Col>
+              </Row>
             )}
-            <Row className="mt-2">
-              <Col md="6">
-                <CountriesList
-                  key={data.alpha3Code}
-                  countries={data}
-                  isMobileSized={this.props.isMobileSized}
-                  selectedCountryCallback={this.selectedCountryCallback}
-                />
-              </Col>
-              <Col md="6">
-                <CountryDetails country={this.state.selectedCountry} />
-              </Col>
-            </Row>
           </Col>
         </Row>
-      </>
+      </React.Fragment>
     );
   }
 }
