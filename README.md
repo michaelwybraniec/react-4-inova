@@ -4,7 +4,7 @@ Created with CodeSandbox
 
 Project overflow: https://github.com/michaelwybraniec/react-4-inova/projects/1
 
-Demo: https://codesandbox.io/s/react-4-inova-brl6n
+Demo: https://codesandbox.io/dashboard/sandboxes/react-4-inova
 
 BE API: http://restcountries.eu/
 
