@@ -28,9 +28,7 @@ class ListItem extends React.Component {
             </Accordion.Toggle>
             {this.props.isMobileSized && (
               <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <CountryDetails country={country} />
-                </Card.Body>
+                <CountryDetails country={country} />
               </Accordion.Collapse>
             )}
           </Card>
