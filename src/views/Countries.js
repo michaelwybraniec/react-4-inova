@@ -146,21 +146,23 @@ class Countries extends React.Component {
                 {this.state.error.messageCustom}
               </Alert>
             ) : (
-              <Row className="mt-2">
-                <Col md="6" style={scrollStyle}>
-                  <CountriesList
-                    key={data.alpha3Code}
-                    countries={data}
-                    isMobileSized={this.props.isMobileSized}
-                    selectedCountryCallback={this.selectedCountryCallback}
-                  />
-                </Col>
-                <Col md="6">
-                  {!this.props.isMobileSized && (
-                    <CountryDetails country={this.state.selectedCountry} />
-                  )}
-                </Col>
-              </Row>
+              !this.state.isLoading && (
+                <Row className="mt-2">
+                  <Col md="6" style={scrollStyle}>
+                    <CountriesList
+                      key={data.alpha3Code}
+                      countries={data}
+                      isMobileSized={this.props.isMobileSized}
+                      selectedCountryCallback={this.selectedCountryCallback}
+                    />
+                  </Col>
+                  <Col md="6">
+                    {!this.props.isMobileSized && (
+                      <CountryDetails country={this.state.selectedCountry} />
+                    )}
+                  </Col>
+                </Row>
+              )
             )}
           </Col>
         </Row>
