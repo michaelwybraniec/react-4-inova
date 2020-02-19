@@ -67,7 +67,7 @@ class Countries extends React.Component {
       .then(response => {
         if (all) {
           this.setState({ APIRawResponse: response });
-          response = [...this.formatJSON(response)];
+          response = this.formatJSON(response);
           this.setState({ countries: response });
           this.setState({ singleSearch: false });
           this.setState({ isLoading: false });
@@ -79,7 +79,7 @@ class Countries extends React.Component {
           });
         } else {
           if (!response.status || response.status !== 404) {
-            response = [...this.formatJSON(response, false)];
+            response = this.formatJSON(response, false);
             this.setState({ country: response });
             this.setState({ singleSearch: true });
             this.setState({ isLoading: false });
@@ -127,8 +127,8 @@ class Countries extends React.Component {
 
   render() {
     const data = !this.state.singleSearch
-      ? [...this.state.countries]
-      : [...this.state.country];
+      ? this.state.countries
+      : this.state.country;
 
     let scrollStyle = this.props.isMobileSized
       ? {}
